@@ -94,24 +94,27 @@ struct dll {
     }
 
     void process() {
+        if(head == NULL) return;
         Node * cur = head -> next;
         Node * left = head;
-        int len;
+        int len, test = 1;
         cout << head -> val << " ";
         while(cur -> next != NULL) {
-            len = length;
+            len = test;
             if(cur -> prev != NULL) left = cur -> prev;
-            while(left -> prev != NULL) {
-                if(left -> val != cur -> val && len == 0) {
+            while(left != NULL) {
+                len--;
+                if(left -> val != cur -> val && len == 1) {
                     cout << -1 << " ";
+                    pop_front();
+                    break;
                 } else {
-                    cout << cur -> val;
+                    cout << cur -> val << " ";
                     break;
                 }
-                left = left -> prev;
-                len--;
+                left = left -> prev;                
             }
-
+            test++;
             cur = cur -> next;
         }
     }
@@ -141,6 +144,7 @@ int main() {
         }
         d.process();
         d.make_empty();
+        cout << endl;
     }
     return 0;
 }
