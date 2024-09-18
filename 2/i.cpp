@@ -1,70 +1,124 @@
-# include <iostream>
+#include <bits/stdc++.h>
 
 using namespace std;
 
 struct Node {
-    int val;
-    Node *next;
-
-    Node(int x) {
-        val = x;
-        next = NULL;
-    }
+  Node *prev;
+  Node *next;
+  string val;
+  Node(string _val) {
+    prev = NULL;
+    next = NULL;
+    val = _val;
+  }
 };
 
-struct List {
-    private:
-    int size;
-    Node *head, *tail;
-
-    public:
-    List() {
-        size = 0;
-        head = tail = NULL;
-    }
-
-    void add(int x) {
-        size++;
-        Node * n = new Node(x);
-        if(head == NULL) {
-            head = tail = n;
-        } else {
-            tail -> next = n;
-            tail = n;
-        }
-    }
-
-    int findMaxSum() {
-        if (head == NULL) return 0;
-        Node * cur = head;
-        int curSum = 0;
-        int maxSum = head -> val;
-        
-        while(cur != NULL) {
-            curSum += cur->val;
-            if (curSum > maxSum) {
-                maxSum = curSum;
-            }
-            if (curSum < 0) {
-                curSum = 0;
-            }
-            cur = cur->next;
-        }
-
-        return maxSum;
-    }
-};
-
+Node *head = NULL;
+Node *tail = NULL;
+int cnt;
+void add_back(string s) {
+  Node *n = new Node(s);
+  cnt++;
+  if (tail == NULL) {
+    head = tail = n;
+  } else {
+    tail->next = n;
+    n->prev = tail;
+    tail = n;
+  }
+}
+void add_front(string s) {
+  Node *n = new Node(s);
+  cnt++;
+  if (head == NULL) {
+    head = tail = n;
+  } else {
+    n->next = head;
+    head->prev = n;
+    head = n;
+  }
+}
+bool empty() { return head == NULL; }
+void pop_front() {
+  if (head == NULL)
+    return;
+  Node *cur = head;
+  cur->next->prev = NULL;
+  head = cur->next;
+  delete cur;
+  cnt--;
+}
+void pop_back() {
+  if (tail == NULL)
+    return;
+  Node *cur = tail;
+  cur->prev->next = NULL;
+  tail = cur->prev;
+  delete cur;
+  cnt--;
+}
+string front() { return head->val; }
+string back() { return tail->val; }
+void clear() {
+  Node *cur = head;
+  while (cur != NULL) {
+  }
+}
 
 int main() {
-    int n; cin >> n;
-    List ll;
-    
-    for (int i = 1; i <= n; ++i) {
-        int x; cin >> x;
-        ll.add(x);
+  string s;
+  while (cin >> s) {
+    if (s == "add_front") {
+      string t;
+      cin >> t;
+      add_front(t);
+      cout << "ok" << endl;
     }
-
-    cout << ll.findMaxSum();
-    return 0;
+    if (s == "add_back") {
+      string t;
+      cin >> t;
+      add_back(t);
+      cout << "ok" << endl;
+    }
+    if (s == "erase_front") {
+      if (empty()) {
+        cout << "error" << endl;
+      } else {
+        cout << front() << endl;
+        pop_front();
+      }
+    }
+    if (s == "erase_back") {
+      if (empty()) {
+        cout << "error" << endl;
+      } else {
+        cout << back() << endl;
+        pop_back();
+      }
+    }
+    if (s == "front") {
+      if (empty()) {
+        cout << "error" << endl;
+      } else {
+        cout << front() << endl;
+      }
+    }
+    if (s == "back") {
+      if (empty()) {
+        cout << "error" << endl;
+      } else {
+        cout << back() << endl;
+      }
+    }
+    if (s == "clear") {
+      clear();
+      cout << "ok" << endl;
+    }
+    if (s == "exit") {
+      cout << "goodbye" << endl;
+      break;
+    }
+    // cout << "hi" << endl;
+  }
+  return 0;
 }
