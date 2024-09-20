@@ -1,4 +1,6 @@
-#include <bits/stdc++.h>
+// #include <bits/stdc++.h>
+#include <iostream>
+
 
 using namespace std;
 
@@ -38,31 +40,43 @@ void add_front(string s) {
     head = n;
   }
 }
-bool empty() { return head == NULL; }
+bool empty() { 
+  return head == NULL; 
+}
 void pop_front() {
-  if (head == NULL)
-    return;
-  Node *cur = head;
-  cur->next->prev = NULL;
-  head = cur->next;
-  delete cur;
-  cnt--;
+  if(head != NULL) {
+    if(head == tail) {
+      delete head;
+      head = tail = NULL;
+    } else {
+      head = head -> next;
+      head -> prev = NULL;
+    }
+    cnt--;
+  }
 }
 void pop_back() {
-  if (tail == NULL)
-    return;
-  Node *cur = tail;
-  cur->prev->next = NULL;
-  tail = cur->prev;
-  delete cur;
-  cnt--;
+  if(tail != NULL) {
+    if(head == tail) {
+      delete tail;
+      head = tail = NULL;
+    } else {
+      tail = tail -> prev;
+      tail -> next = NULL;
+    }
+    cnt--;
+  }
 }
 string front() { return head->val; }
 string back() { return tail->val; }
 void clear() {
-  Node *cur = head;
+  Node * cur = head -> next;
   while (cur != NULL) {
+    Node * temp = cur -> next;
+    delete cur;
+    cur = temp;
   }
+  head = tail = NULL;
 }
 
 int main() {
@@ -111,14 +125,13 @@ int main() {
       }
     }
     if (s == "clear") {
-      clear();
+      if(!empty()) clear();
       cout << "ok" << endl;
     }
     if (s == "exit") {
       cout << "goodbye" << endl;
       break;
     }
-    // cout << "hi" << endl;
   }
   return 0;
 }
