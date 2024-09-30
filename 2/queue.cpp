@@ -2,10 +2,10 @@
 
 using namespace std;
 
-struct node {
+struct Node {
     int val;
-    node * next;
-    node(int x) {
+    Node * next;
+    Node(int x) {
         val = x;
         next = NULL;
     }
@@ -15,8 +15,8 @@ struct node {
 
 struct queue {
 private:
-    node * head;
-    node * tail;
+    Node * head;
+    Node * tail;
     int len;
 public:
     queue() {
@@ -25,7 +25,7 @@ public:
     }
 
     void add(int x) {
-        node * n = new node(x);
+        Node * n = new Node(x);
         len++;
         if (head == NULL) {
             head = tail = n;
@@ -36,7 +36,7 @@ public:
     }
 
     void print() {
-        node* cur = head;
+        Node* cur = head;
         while (cur != NULL) {
             cout << cur->val << " ";
             cur = cur->next;
