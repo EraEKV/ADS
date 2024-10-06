@@ -1,11 +1,3 @@
-// НЕ РЕШЕНА
-// НЕ РЕШЕНА
-// НЕ РЕШЕНА
-// НЕ РЕШЕНА
-// BISMILLAH
-
-
-
 #include <iostream>
 
 using namespace std;
@@ -38,6 +30,10 @@ struct bst {
             return search(root, x) != NULL;
         }
 
+        int diameter() {
+            return diameter(root);
+        }
+
     private:
         Node * root;
         Node * add(Node * cur, int x) {
@@ -50,6 +46,27 @@ struct bst {
             } 
             
             return cur;
+        }
+
+        int getHeight(Node * cur) {
+            if(cur == NULL) {
+                return 0;
+            }
+
+            return 1 + max(getHeight(cur -> left), 
+            getHeight(cur -> right));
+        }
+
+        int diameter(Node * cur) {
+            if(cur == NULL) return 0;
+
+            int lheight = getHeight(cur -> left);
+            int rheight = getHeight(cur -> right);
+
+            int ldiameter = diameter(cur -> left);
+            int rdiameter = diameter(cur -> right);
+
+            return max(lheight + rheight + 1, max(ldiameter, rdiameter));
         }
 
         void print(Node * cur) {
@@ -87,7 +104,6 @@ int main() {
         b -> add(temp);
     }
 
-    b -> print();
-
+    cout << b -> diameter();
     return 0;
 }

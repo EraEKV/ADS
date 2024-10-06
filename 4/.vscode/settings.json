@@ -10,6 +10,8 @@
         "unordered_map": "cpp",
         "vector": "cpp",
         "xhash": "cpp",
-        "xmemory": "cpp"
+        "xmemory": "cpp",
+        "ios": "cpp",
+        "xiosbase": "cpp"
     }
 }
