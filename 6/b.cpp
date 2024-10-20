@@ -1,8 +1,8 @@
 #include <iostream>
 #include <vector>
+#include <climits>
 
 using namespace std;
-
 
 int partition(vector<int>& arr, int low, int high) {
     int pivot = arr[high];
@@ -15,51 +15,49 @@ int partition(vector<int>& arr, int low, int high) {
         }
     }
     
-    swap(arr[i + 1], arr[high]);  
+    swap(arr[i + 1], arr[high]);
     return i + 1;
 }
 
 void quickSort(vector<int>& arr, int low, int high) {
-  
     if (low < high) {
-      
         int pi = partition(arr, low, high);
-
         quickSort(arr, low, pi - 1);
         quickSort(arr, pi + 1, high);
     }
 }
 
-void process(vector<int>& arr1, vector<int>& arr2) {
-    for(int i = 0; i < arr1.size(); ++i) {
-       for(int j = 0; j < arr2.size(); ++j) {
-            if(arr1[i] == arr2[j]) {
-                cout << arr1[i] << " ";
-                arr1[i] = -1;
-                arr2[j] = -2;
-                break;
-            }
-        } 
+vector<pair<int, int>> findClosestPairs(vector<int>& points) {
+    quickSort(points, 0, points.size() - 1);
+    int minDiff = INT_MAX;
+    vector<pair<int, int>> result;
+    
+    for (int i = 1; i < points.size(); i++) {
+        int diff = points[i] - points[i - 1];
+        if (diff < minDiff) {
+            minDiff = diff;
+            result.clear();
+            result.push_back({points[i - 1], points[i]});
+        } else if (diff == minDiff) {
+            result.push_back({points[i - 1], points[i]});
+        }
     }
+    return result;
 }
 
 int main() {
-    int n, m; cin >> n >> m;
-    vector<int> arr1(n);
-    vector<int> arr2(m);
+    int n; cin >> n;
+    vector<int> points(n);
+    for (int i = 0; i < n; ++i) {
+        cin >> points[i];
+    }
     
-    for(int i = 0; i < n; ++i) {
-        cin >> arr1[i];
+    vector<pair<int, int>> closestPairs = findClosestPairs(points);
+    
+    for (const auto& p : closestPairs) {
+        cout << p.first << " " << p.second << " ";
     }
-
-    for(int i = 0; i < m; ++i) {
-        cin >> arr2[i];
-    }
-
-    quickSort(arr1, 0, n - 1);
-    quickSort(arr2, 0, m - 1);
-
-    n < m ? process(arr1, arr2) : process(arr2, arr1);
-
+    cout << endl;
+    
     return 0;
 }

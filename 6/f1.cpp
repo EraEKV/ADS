@@ -22,10 +22,12 @@ void heapify(vector<pair<float, string>>& arr, int n, int i) {
     int l = 2 * i + 1;
     int r = 2 * i + 2;
 
-    if (l < n && arr[l].first > arr[largest].first)
+    if (l < n && (arr[l].first > arr[largest].first || 
+        (arr[l].first == arr[largest].first && arr[l].second < arr[largest].second)))
         largest = l;
 
-    if (r < n && arr[r].first > arr[largest].first)
+    if (r < n && (arr[r].first > arr[largest].first || 
+        (arr[r].first == arr[largest].first && arr[r].second < arr[largest].second)))
         largest = r;
 
     if (largest != i) {
@@ -48,38 +50,36 @@ void heapSort(vector<pair<float, string>>& arr) {
 }
 
 float evaluateTotalGPA() {
-    int m; cin >> m;
+    int m;
+    cin >> m;
     float sum1 = 0;
     float sum2 = 0;
-    for(int i = 0; i < m; i++) {
+    for (int i = 0; i < m; i++) {
         string grade;
         int credits;
         cin >> grade >> credits;
         sum1 += grades[grade] * credits;
         sum2 += credits;
     }
-    return (float) sum1 / sum2;
+    return (sum2 > 0) ? (sum1 / sum2) : 0.0; // Избегаем деления на ноль
 }
 
 int main() {
     int n; 
     cin >> n;
     vector<pair<float, string>> students;
-    
+
     for (int i = 0; i < n; ++i) {
-        string name1, name2; 
-        cin >> name1 >> name2;
-        string name = name1 + " " + name2; 
-        float value = evaluateTotalGPA();
-        
-        students.push_back(make_pair(value, name));
+        string firstname, lastname; 
+        cin >> lastname >> firstname;
+        float gpa = evaluateTotalGPA();
+        students.push_back(make_pair(gpa, lastname + " " + firstname));
     }
 
     heapSort(students);
 
     for (const auto& s : students) {
-        if (s.first != 0) 
-            cout << s.second << " " << fixed << setprecision(3) << s.first << endl;
+        cout << s.second << " " << fixed << setprecision(3) << s.first << endl;
     }
 
     return 0;
