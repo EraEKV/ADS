@@ -50,10 +50,8 @@ void heapSort(vector<pair<float, string>>& arr) {
 }
 
 float evaluateTotalGPA() {
-    int m;
-    cin >> m;
-    float sum1 = 0;
-    float sum2 = 0;
+    int m; cin >> m;
+    float sum1 = 0, sum2 = 0;
     for (int i = 0; i < m; i++) {
         string grade;
         int credits;
@@ -61,12 +59,11 @@ float evaluateTotalGPA() {
         sum1 += grades[grade] * credits;
         sum2 += credits;
     }
-    return (sum2 > 0) ? (sum1 / sum2) : 0.0; // Избегаем деления на ноль
+    return (sum2 > 0) ? (sum1 / sum2) : 0.0;
 }
 
 int main() {
-    int n; 
-    cin >> n;
+    int n; cin >> n;
     vector<pair<float, string>> students;
 
     for (int i = 0; i < n; ++i) {
